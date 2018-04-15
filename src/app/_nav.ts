@@ -37,7 +37,7 @@ export const navigation = [
     icon: 'icon-drawer',
     children: [
       {
-        name: 'Cards',
+        name: 'conflicts',
         url: '/base/cards',
         icon: 'icon-puzzle'
       },
@@ -116,7 +116,7 @@ export const navigation = [
     ]
   },
   {
-    name: 'Charts',
+    name: 'Analytics',
     url: '/charts',
     icon: 'icon-pie-chart'
   },
