@@ -90,26 +90,26 @@ export class CalendarComponent implements OnInit {
         {
             start: subDays(startOfDay(new Date()), 1),
             end: addDays(new Date(), 1),
-            title: 'A 3 day event',
+            title: 'AP Physics Circuit And Resistors Unit Test',
             color: this.color.red,
             actions: this.actions
         },
         {
             start: startOfDay(new Date()),
-            title: 'An event with no end date',
+            title: 'Incoming SAT Subject Tests',
             color: this.color.yellow,
             actions: this.actions
         },
         {
             start: subDays(endOfMonth(new Date()), 3),
             end: addDays(endOfMonth(new Date()), 3),
-            title: 'A long event that spans 2 months',
+            title: 'Long Project For AP BIO',
             color: this.color.blue
         },
         {
             start: addHours(startOfDay(new Date()), 2),
             end: new Date(),
-            title: 'A draggable and resizable event',
+            title: 'AP Environmental Science Quiz',
             color: this.color.yellow,
             actions: this.actions,
             resizable: {
@@ -139,7 +139,7 @@ export class CalendarComponent implements OnInit {
     sendMessage(): void {
         console.log(this.detail.value);
         // Don't forget to change the latePassAmount in constructor to update to firebase^^^
-        
+
         // Insert Firebase Here
     }
     ngOnInit(): void {
