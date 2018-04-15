@@ -10,26 +10,26 @@ export const navigation = [
   },
   {
     title: true,
-    name: 'Theme'
+    name: 'Your Classes'
   },
   {
-    name: 'Colors',
+    name: 'Classes',
     url: '/theme/colors',
-    icon: 'icon-drop'
+    icon: 'icon-grid'
   },
   {
-    name: 'Typography',
+    name: 'Add Class',
     url: '/theme/typography',
-    icon: 'icon-pencil'
+    icon: 'icon-plus'
   },
   {
     title: true,
-    name: 'Components'
+    name: 'Calendars'
   },
   {
-    name: 'Base',
+    name: 'inbox',
     url: '/base',
-    icon: 'icon-puzzle',
+    icon: 'icon-drawer',
     children: [
       {
         name: 'Cards',

@@ -63,7 +63,7 @@
               <a class="dropdown-item" href="#">Something else here</a>
             </div>
           </div>
-          <p>members online</p>
+          <p>total online</p>
         </div>
         <div class="chart-wrapper" style="height:70px;">
           <canvas baseChart class="chart"
@@ -91,7 +91,7 @@
               <a class="dropdown-item" href="#">Something else here</a>
             </div>
           </div>
-          <p>Members online</p>
+          <p>total online</p>
         </div>
         <div class="chart-wrapper px-3" style="height:70px;">
           <canvas baseChart class="chart"
@@ -112,7 +112,7 @@
       <div class="row">
         <div class="col-sm-5">
           <h4 class="card-title mb-0">Activity</h4>
-          <div class="small text-muted">November 2017</div>
+          <div class="small text-muted">April 2017</div>
         </div><!--/.col-->
         <div class="col-sm-7 d-none d-md-block">
           <button type="button" class="btn btn-primary float-right"><i class="icon-cloud-download"></i></button>
@@ -176,121 +176,12 @@
     </div>
   </div>
   <!--/.card-->
-  <div class="row">
-    <div class="col-sm-6 col-lg-3">
-      <div class="social-box facebook">
-        <i class="fa fa-facebook"></i>
-        <div class="chart-wrapper">
-          <canvas baseChart class="chart"
-          [datasets]="socialChartData1"
-          [labels]="socialChartLabels"
-          [options]="socialChartOptions"
-          [colors]="socialChartColours"
-          [legend]="socialChartLegend"
-          [chartType]="socialChartType"
-          (chartHover)="chartHovered($event)"
-          (chartClick)="chartClicked($event)"></canvas>
-        </div>
-        <ul>
-          <li>
-            <strong>89k</strong>
-            <span>friends</span>
-          </li>
-          <li>
-            <strong>459</strong>
-            <span>feeds</span>
-          </li>
-        </ul>
-      </div>
-      <!--/.social-box-->
-    </div><!--/.col-->
-    <div class="col-sm-6 col-lg-3">
-      <div class="social-box twitter">
-        <i class="fa fa-twitter"></i>
-        <div class="chart-wrapper">
-          <canvas baseChart class="chart"
-          [datasets]="socialChartData2"
-          [labels]="socialChartLabels"
-          [options]="socialChartOptions"
-          [colors]="socialChartColours"
-          [legend]="socialChartLegend"
-          [chartType]="socialChartType"
-          (chartHover)="chartHovered($event)"
-          (chartClick)="chartClicked($event)"></canvas>
-        </div>
-        <ul>
-          <li>
-            <strong>973k</strong>
-            <span>followers</span>
-          </li>
-          <li>
-            <strong>1.792</strong>
-            <span>tweets</span>
-          </li>
-        </ul>
-      </div>
-      <!--/.social-box-->
-    </div><!--/.col-->
-    <div class="col-sm-6 col-lg-3">
-      <div class="social-box linkedin">
-        <i class="fa fa-linkedin"></i>
-        <div class="chart-wrapper">
-          <canvas baseChart class="chart"
-          [datasets]="socialChartData3"
-          [labels]="socialChartLabels"
-          [options]="socialChartOptions"
-          [colors]="socialChartColours"
-          [legend]="socialChartLegend"
-          [chartType]="socialChartType"
-          (chartHover)="chartHovered($event)"
-          (chartClick)="chartClicked($event)"></canvas>
-        </div>
-        <ul>
-          <li>
-            <strong>500+</strong>
-            <span>contacts</span>
-          </li>
-          <li>
-            <strong>292</strong>
-            <span>feeds</span>
-          </li>
-        </ul>
-      </div>
-      <!--/.social-box-->
-    </div><!--/.col-->
-    <div class="col-sm-6 col-lg-3">
-      <div class="social-box google-plus">
-        <i class="fa fa-google-plus"></i>
-        <div class="chart-wrapper">
-          <canvas baseChart class="chart"
-          [datasets]="socialChartData4"
-          [labels]="socialChartLabels"
-          [options]="socialChartOptions"
-          [colors]="socialChartColours"
-          [legend]="socialChartLegend"
-          [chartType]="socialChartType"
-          (chartHover)="chartHovered($event)"
-          (chartClick)="chartClicked($event)"></canvas>
-        </div>
-        <ul>
-          <li>
-            <strong>894</strong>
-            <span>followers</span>
-          </li>
-          <li>
-            <strong>92</strong>
-            <span>circles</span>
-          </li>
-        </ul>
-      </div>
-      <!--/.social-box-->
-    </div><!--/.col-->
-  </div><!--/.row-->
+  
   <div class="row">
     <div class="col-md-12">
       <div class="card">
         <div class="card-header">
-          Traffic &amp; Sales
+          Traffic 
         </div>
         <div class="card-body">
           <div class="row">
