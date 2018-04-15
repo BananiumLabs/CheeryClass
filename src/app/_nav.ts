@@ -211,16 +211,10 @@ export const navigation = [
     ]
   },
   {
-    name: 'Download CoreUI',
-    url: 'http://coreui.io/angular/',
-    icon: 'icon-cloud-download',
+    name: 'View GitHub Project',
+    url: 'https://github.com/BananiumLabs/CheeryClass/',
+    icon: 'icon-layers',
     class: 'mt-auto',
     variant: 'success'
-  },
-  {
-    name: 'Try CoreUI PRO',
-    url: 'http://coreui.io/pro/angular/',
-    icon: 'icon-layers',
-    variant: 'danger'
   }
 ];
