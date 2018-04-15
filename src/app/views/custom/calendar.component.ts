@@ -20,11 +20,17 @@ import {
 import { Observable } from 'rxjs/Observable';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subject } from 'rxjs/Subject';
+import { FormBuilder, Validators, AbstractControl, FormGroup } from '@angular/forms';
+
+
 interface Film {
     id: number;
     title: string;
     release_date: string;
 }
+var visible: false;
+var visibleDebug: false;
+
 
 @Component({
     templateUrl: 'calendar.component.html'
@@ -117,8 +123,25 @@ export class CalendarComponent implements OnInit {
     events$: Observable<Array<CalendarEvent<{ film: Film }>>>;
 
 
-    constructor(private http: HttpClient, private modal: NgbModal) { }
+    form: FormGroup;
+    detail: AbstractControl;
+    latePassAmount: string;
+    constructor(private http: HttpClient, private modal: NgbModal, private fb: FormBuilder) {
 
+        this.form = fb.group({
+            'detail': ['', Validators.required],
+        });
+        this.detail = this.form.controls['detail'];
+
+        this.latePassAmount = (3).toString(); // Set late pass amount to this variable!
+     }
+
+    sendMessage(): void {
+        console.log(this.detail.value);
+        // Don't forget to change the latePassAmount in constructor to update to firebase^^^
+        
+        // Insert Firebase Here
+    }
     ngOnInit(): void {
         this.fetchEvents();
     }
