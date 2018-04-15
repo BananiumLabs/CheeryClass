@@ -1,45 +1,126 @@
-<mwl-demo-utils-calendar-header
-  [(view)]="view"
-  [(viewDate)]="viewDate"
-  (viewDateChange)="fetchEvents()"
-  (viewChange)="fetchEvents()">
-</mwl-demo-utils-calendar-header>
-
 <ng-template #loading>
   <div class="text-center">
     <i class="fa fa-spin fa-spinner fa-5x"></i>
-    <br>
-    Loading events...
+    <br> Loading events...
   </div>
 </ng-template>
 
-<div *ngIf="events$ | async; else loading; let events">
-  <div [ngSwitch]="view">
-    <mwl-calendar-month-view
-      *ngSwitchCase="'month'"
-      [viewDate]="viewDate"
-      [events]="events"
-      [activeDayIsOpen]="activeDayIsOpen"
-      (dayClicked)="dayClicked($event.day)"
-      (eventClicked)="eventClicked($event.event)">
-    </mwl-calendar-month-view>
-    <mwl-calendar-week-view
-      *ngSwitchCase="'week'"
-      [viewDate]="viewDate"
-      [events]="events"
-      (eventClicked)="eventClicked($event.event)">
-    </mwl-calendar-week-view>
-    <mwl-calendar-day-view
-      *ngSwitchCase="'day'"
-      [viewDate]="viewDate"
-      [events]="events"
-      (eventClicked)="eventClicked($event.event)">
-    </mwl-calendar-day-view>
+<ng-template #modalContent let-close="close">
+  <div class="modal-header">
+    <h5 class="modal-title">Event action occurred</h5>
+    <button type="button" class="close" (click)="close()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div>
+      Action:
+      <pre>{{ modalData?.action }}</pre>
+    </div>
+    <div>
+      Event:
+      <pre>{{ modalData?.event | json }}</pre>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-secondary" (click)="close()">OK</button>
+  </div>
+</ng-template>
+
+<div class="row text-center">
+  <div class="col-md-4">
+    <div class="btn-group">
+      <div class="btn btn-primary" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate" (viewDateChange)="activeDayIsOpen = false">
+        Previous
+      </div>
+      <div class="btn btn-outline-secondary" mwlCalendarToday [(viewDate)]="viewDate">
+        Today
+      </div>
+      <div class="btn btn-primary" mwlCalendarNextView [view]="view" [(viewDate)]="viewDate" (viewDateChange)="activeDayIsOpen = false">
+        Next
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <h3>{{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}</h3>
+  </div>
+  <div class="col-md-4">
+    <div class="btn-group">
+      <div class="btn btn-primary" (click)="view = 'month'" [class.active]="view === 'month'">
+        Month
+      </div>
+      <div class="btn btn-primary" (click)="view = 'week'" [class.active]="view === 'week'">
+        Week
+      </div>
+      <div class="btn btn-primary" (click)="view = 'day'" [class.active]="view === 'day'">
+        Day
+      </div>
+    </div>
   </div>
 </div>
+<br>
+<div [ngSwitch]="view">
+  <mwl-calendar-month-view *ngSwitchCase="'month'" [viewDate]="viewDate" [events]="events" [refresh]="refresh" [activeDayIsOpen]="activeDayIsOpen"
+    (dayClicked)="dayClicked($event.day)" (eventClicked)="handleEvent('Clicked', $event.event)" (eventTimesChanged)="eventTimesChanged($event)">
+  </mwl-calendar-month-view>
+  <mwl-calendar-week-view *ngSwitchCase="'week'" [viewDate]="viewDate" [events]="events" [refresh]="refresh" (eventClicked)="handleEvent('Clicked', $event.event)"
+    (eventTimesChanged)="eventTimesChanged($event)">
+  </mwl-calendar-week-view>
+  <mwl-calendar-day-view *ngSwitchCase="'day'" [viewDate]="viewDate" [events]="events" [refresh]="refresh" (eventClicked)="handleEvent('Clicked', $event.event)"
+    (eventTimesChanged)="eventTimesChanged($event)">
+  </mwl-calendar-day-view>
+</div>
+
+<br>
 
 
+<h3>
+  Edit events
+  <button class="btn btn-primary pull-right" (click)="addEvent()">
+    Add new
+  </button>
+  <div class="clearfix"></div>
+</h3>
 
+<table class="table table-bordered">
+
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Primary color</th>
+      <th>Secondary color</th>
+      <th>Starts at</th>
+      <th>Ends at</th>
+      <th>Remove</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr *ngFor="let event of events; let index = index">
+      <td>
+        <input type="text" class="form-control" [(ngModel)]="event.title" (keyup)="refresh.next()">
+      </td>
+      <td>
+        <input type="color" [(ngModel)]="event.color.primary" (change)="refresh.next()">
+      </td>
+      <td>
+        <input type="color" [(ngModel)]="event.color.secondary" (change)="refresh.next()">
+      </td>
+      <td>
+
+      </td>
+      <td>
+
+      </td>
+      <td>
+        <button class="btn btn-danger" (click)="events.splice(index, 1); refresh.next()">
+          Delete
+        </button>
+      </td>
+    </tr>
+  </tbody>
+
+</table>
 
 
 
@@ -63,18 +144,12 @@
           <p>groups online</p>
         </div>
         <div class="chart-wrapper px-3" style="height:70px;">
-          <canvas baseChart class="chart"
-          [datasets]="lineChart1Data"
-          [labels]="lineChart1Labels"
-          [options]="lineChart1Options"
-          [colors]="lineChart1Colours"
-          [legend]="lineChart1Legend"
-          [chartType]="lineChart1Type"
-          (chartHover)="chartHovered($event)"
-          (chartClick)="chartClicked($event)"></canvas>
+          <canvas baseChart class="chart" [datasets]="lineChart1Data" [labels]="lineChart1Labels" [options]="lineChart1Options" [colors]="lineChart1Colours"
+            [legend]="lineChart1Legend" [chartType]="lineChart1Type" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)"></canvas>
         </div>
       </div>
-    </div><!--/.col-->
+    </div>
+    <!--/.col-->
     <div class="col-sm-6 col-lg-3">
       <div class="card text-white bg-info">
         <div class="card-body pb-0">
@@ -84,18 +159,12 @@
           <p>students online</p>
         </div>
         <div class="chart-wrapper px-3" style="height:70px;">
-          <canvas baseChart class="chart"
-          [datasets]="lineChart2Data"
-          [labels]="lineChart2Labels"
-          [options]="lineChart2Options"
-          [colors]="lineChart2Colours"
-          [legend]="lineChart2Legend"
-          [chartType]="lineChart2Type"
-          (chartHover)="chartHovered($event)"
-          (chartClick)="chartClicked($event)"></canvas>
+          <canvas baseChart class="chart" [datasets]="lineChart2Data" [labels]="lineChart2Labels" [options]="lineChart2Options" [colors]="lineChart2Colours"
+            [legend]="lineChart2Legend" [chartType]="lineChart2Type" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)"></canvas>
         </div>
       </div>
-    </div><!--/.col-->
+    </div>
+    <!--/.col-->
     <div class="col-sm-6 col-lg-3">
       <div class="card text-white bg-warning">
         <div class="card-body pb-0">
@@ -112,18 +181,12 @@
           <p>members online</p>
         </div>
         <div class="chart-wrapper" style="height:70px;">
-          <canvas baseChart class="chart"
-          [datasets]="lineChart3Data"
-          [labels]="lineChart3Labels"
-          [options]="lineChart3Options"
-          [colors]="lineChart3Colours"
-          [legend]="lineChart3Legend"
-          [chartType]="lineChart3Type"
-          (chartHover)="chartHovered($event)"
-          (chartClick)="chartClicked($event)"></canvas>
+          <canvas baseChart class="chart" [datasets]="lineChart3Data" [labels]="lineChart3Labels" [options]="lineChart3Options" [colors]="lineChart3Colours"
+            [legend]="lineChart3Legend" [chartType]="lineChart3Type" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)"></canvas>
         </div>
       </div>
-    </div><!--/.col-->
+    </div>
+    <!--/.col-->
     <div class="col-sm-6 col-lg-3">
       <div class="card text-white bg-danger">
         <div class="card-body pb-0">
@@ -140,45 +203,38 @@
           <p>Members online</p>
         </div>
         <div class="chart-wrapper px-3" style="height:70px;">
-          <canvas baseChart class="chart"
-          [datasets]="barChart1Data"
-          [labels]="barChart1Labels"
-          [options]="barChart1Options"
-          [colors]="barChart1Colours"
-          [legend]="barChart1Legend"
-          [chartType]="barChart1Type"
-          (chartHover)="chartHovered($event)"
-          (chartClick)="chartClicked($event)"></canvas>
+          <canvas baseChart class="chart" [datasets]="barChart1Data" [labels]="barChart1Labels" [options]="barChart1Options" [colors]="barChart1Colours"
+            [legend]="barChart1Legend" [chartType]="barChart1Type" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)"></canvas>
         </div>
       </div>
-    </div><!--/.col-->
-  </div><!--/.row-->
+    </div>
+    <!--/.col-->
+  </div>
+  <!--/.row-->
   <div class="card">
     <div class="card-body">
       <div class="row">
         <div class="col-sm-5">
           <h4 class="card-title mb-0">Activity</h4>
           <div class="small text-muted">November 2017</div>
-        </div><!--/.col-->
+        </div>
+        <!--/.col-->
         <div class="col-sm-7 d-none d-md-block">
-          <button type="button" class="btn btn-primary float-right"><i class="icon-cloud-download"></i></button>
+          <button type="button" class="btn btn-primary float-right">
+            <i class="icon-cloud-download"></i>
+          </button>
           <div class="btn-group btn-group-toggle float-right mr-3" data-toggle="buttons">
             <label class="btn btn-outline-secondary" [(ngModel)]="radioModel" btnRadio="Day" id="option1">Day</label>
             <label class="btn btn-outline-secondary" [(ngModel)]="radioModel" btnRadio="Month" id="option2">Month</label>
             <label class="btn btn-outline-secondary" [(ngModel)]="radioModel" btnRadio="Year" id="option3">Year</label>
           </div>
-        </div><!--/.col-->
-      </div><!--/.row-->
+        </div>
+        <!--/.col-->
+      </div>
+      <!--/.row-->
       <div class="chart-wrapper" style="height:300px;margin-top:40px;">
-        <canvas baseChart class="chart"
-        [datasets]="mainChartData"
-        [labels]="mainChartLabels"
-        [options]="mainChartOptions"
-        [colors]="mainChartColours"
-        [legend]="mainChartLegend"
-        [chartType]="mainChartType"
-        (chartHover)="chartHovered($event)"
-        (chartClick)="chartClicked($event)"></canvas>
+        <canvas baseChart class="chart" [datasets]="mainChartData" [labels]="mainChartLabels" [options]="mainChartOptions" [colors]="mainChartColours"
+          [legend]="mainChartLegend" [chartType]="mainChartType" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)"></canvas>
       </div>
     </div>
     <div class="card-footer">
@@ -227,15 +283,9 @@
       <div class="social-box facebook">
         <i class="fa fa-facebook"></i>
         <div class="chart-wrapper">
-          <canvas baseChart class="chart"
-          [datasets]="socialChartData1"
-          [labels]="socialChartLabels"
-          [options]="socialChartOptions"
-          [colors]="socialChartColours"
-          [legend]="socialChartLegend"
-          [chartType]="socialChartType"
-          (chartHover)="chartHovered($event)"
-          (chartClick)="chartClicked($event)"></canvas>
+          <canvas baseChart class="chart" [datasets]="socialChartData1" [labels]="socialChartLabels" [options]="socialChartOptions"
+            [colors]="socialChartColours" [legend]="socialChartLegend" [chartType]="socialChartType" (chartHover)="chartHovered($event)"
+            (chartClick)="chartClicked($event)"></canvas>
         </div>
         <ul>
           <li>
@@ -249,20 +299,15 @@
         </ul>
       </div>
       <!--/.social-box-->
-    </div><!--/.col-->
+    </div>
+    <!--/.col-->
     <div class="col-sm-6 col-lg-3">
       <div class="social-box twitter">
         <i class="fa fa-twitter"></i>
         <div class="chart-wrapper">
-          <canvas baseChart class="chart"
-          [datasets]="socialChartData2"
-          [labels]="socialChartLabels"
-          [options]="socialChartOptions"
-          [colors]="socialChartColours"
-          [legend]="socialChartLegend"
-          [chartType]="socialChartType"
-          (chartHover)="chartHovered($event)"
-          (chartClick)="chartClicked($event)"></canvas>
+          <canvas baseChart class="chart" [datasets]="socialChartData2" [labels]="socialChartLabels" [options]="socialChartOptions"
+            [colors]="socialChartColours" [legend]="socialChartLegend" [chartType]="socialChartType" (chartHover)="chartHovered($event)"
+            (chartClick)="chartClicked($event)"></canvas>
         </div>
         <ul>
           <li>
@@ -276,20 +321,15 @@
         </ul>
       </div>
       <!--/.social-box-->
-    </div><!--/.col-->
+    </div>
+    <!--/.col-->
     <div class="col-sm-6 col-lg-3">
       <div class="social-box linkedin">
         <i class="fa fa-linkedin"></i>
         <div class="chart-wrapper">
-          <canvas baseChart class="chart"
-          [datasets]="socialChartData3"
-          [labels]="socialChartLabels"
-          [options]="socialChartOptions"
-          [colors]="socialChartColours"
-          [legend]="socialChartLegend"
-          [chartType]="socialChartType"
-          (chartHover)="chartHovered($event)"
-          (chartClick)="chartClicked($event)"></canvas>
+          <canvas baseChart class="chart" [datasets]="socialChartData3" [labels]="socialChartLabels" [options]="socialChartOptions"
+            [colors]="socialChartColours" [legend]="socialChartLegend" [chartType]="socialChartType" (chartHover)="chartHovered($event)"
+            (chartClick)="chartClicked($event)"></canvas>
         </div>
         <ul>
           <li>
@@ -303,20 +343,15 @@
         </ul>
       </div>
       <!--/.social-box-->
-    </div><!--/.col-->
+    </div>
+    <!--/.col-->
     <div class="col-sm-6 col-lg-3">
       <div class="social-box google-plus">
         <i class="fa fa-google-plus"></i>
         <div class="chart-wrapper">
-          <canvas baseChart class="chart"
-          [datasets]="socialChartData4"
-          [labels]="socialChartLabels"
-          [options]="socialChartOptions"
-          [colors]="socialChartColours"
-          [legend]="socialChartLegend"
-          [chartType]="socialChartType"
-          (chartHover)="chartHovered($event)"
-          (chartClick)="chartClicked($event)"></canvas>
+          <canvas baseChart class="chart" [datasets]="socialChartData4" [labels]="socialChartLabels" [options]="socialChartOptions"
+            [colors]="socialChartColours" [legend]="socialChartLegend" [chartType]="socialChartType" (chartHover)="chartHovered($event)"
+            (chartClick)="chartClicked($event)"></canvas>
         </div>
         <ul>
           <li>
@@ -330,8 +365,10 @@
         </ul>
       </div>
       <!--/.social-box-->
-    </div><!--/.col-->
-  </div><!--/.row-->
+    </div>
+    <!--/.col-->
+  </div>
+  <!--/.row-->
   <div class="row">
     <div class="col-md-12">
       <div class="card">
@@ -348,37 +385,28 @@
                     <br>
                     <strong class="h4">9,123</strong>
                     <div class="chart-wrapper" style="height:30px;">
-                      <canvas baseChart class="chart"
-                      [datasets]="sparklineChartData1"
-                      [labels]="sparklineChartLabels"
-                      [options]="sparklineChartOptions"
-                      [colors]="sparklineChartInfo"
-                      [legend]="sparklineChartLegend"
-                      [chartType]="sparklineChartType"
-                      (chartHover)="chartHovered($event)"
-                      (chartClick)="chartClicked($event)"></canvas>
+                      <canvas baseChart class="chart" [datasets]="sparklineChartData1" [labels]="sparklineChartLabels" [options]="sparklineChartOptions"
+                        [colors]="sparklineChartInfo" [legend]="sparklineChartLegend" [chartType]="sparklineChartType" (chartHover)="chartHovered($event)"
+                        (chartClick)="chartClicked($event)"></canvas>
                     </div>
                   </div>
-                </div><!--/.col-->
+                </div>
+                <!--/.col-->
                 <div class="col-sm-6">
                   <div class="callout callout-danger">
                     <small class="text-muted">Recuring Clients</small>
                     <br>
                     <strong class="h4">22,643</strong>
                     <div class="chart-wrapper" style="height:30px;">
-                      <canvas baseChart class="chart"
-                      [datasets]="sparklineChartData2"
-                      [labels]="sparklineChartLabels"
-                      [options]="sparklineChartOptions"
-                      [colors]="sparklineChartDanger"
-                      [legend]="sparklineChartLegend"
-                      [chartType]="sparklineChartType"
-                      (chartHover)="chartHovered($event)"
-                      (chartClick)="chartClicked($event)"></canvas>
+                      <canvas baseChart class="chart" [datasets]="sparklineChartData2" [labels]="sparklineChartLabels" [options]="sparklineChartOptions"
+                        [colors]="sparklineChartDanger" [legend]="sparklineChartLegend" [chartType]="sparklineChartType" (chartHover)="chartHovered($event)"
+                        (chartClick)="chartClicked($event)"></canvas>
                     </div>
                   </div>
-                </div><!--/.col-->
-              </div><!--/.row-->
+                </div>
+                <!--/.col-->
+              </div>
+              <!--/.row-->
               <hr class="mt-0">
               <ul class="horizontal-bars">
                 <li>
@@ -473,10 +501,14 @@
                   </div>
                 </li>
                 <li class="legend">
-                  <span class="badge badge-pill badge-info"></span> <small>New clients</small> &nbsp; <span class="badge badge-pill badge-danger"></span> <small>Recurring clients</small>
+                  <span class="badge badge-pill badge-info"></span>
+                  <small>New clients</small> &nbsp;
+                  <span class="badge badge-pill badge-danger"></span>
+                  <small>Recurring clients</small>
                 </li>
               </ul>
-            </div><!--/.col-->
+            </div>
+            <!--/.col-->
             <div class="col-sm-6 col-lg-4">
               <div class="row">
                 <div class="col-sm-6">
@@ -485,37 +517,28 @@
                     <br>
                     <strong class="h4">78,623</strong>
                     <div class="chart-wrapper" style="height:30px;">
-                      <canvas baseChart class="chart"
-                      [datasets]="sparklineChartData1"
-                      [labels]="sparklineChartLabels"
-                      [options]="sparklineChartOptions"
-                      [colors]="sparklineChartWarning"
-                      [legend]="sparklineChartLegend"
-                      [chartType]="sparklineChartType"
-                      (chartHover)="chartHovered($event)"
-                      (chartClick)="chartClicked($event)"></canvas>
+                      <canvas baseChart class="chart" [datasets]="sparklineChartData1" [labels]="sparklineChartLabels" [options]="sparklineChartOptions"
+                        [colors]="sparklineChartWarning" [legend]="sparklineChartLegend" [chartType]="sparklineChartType" (chartHover)="chartHovered($event)"
+                        (chartClick)="chartClicked($event)"></canvas>
                     </div>
                   </div>
-                </div><!--/.col-->
+                </div>
+                <!--/.col-->
                 <div class="col-sm-6">
                   <div class="callout callout-success">
                     <small class="text-muted">Organic</small>
                     <br>
                     <strong class="h4">49,123</strong>
                     <div class="chart-wrapper" style="height:30px;">
-                      <canvas baseChart class="chart"
-                      [datasets]="sparklineChartData2"
-                      [labels]="sparklineChartLabels"
-                      [options]="sparklineChartOptions"
-                      [colors]="sparklineChartSuccess"
-                      [legend]="sparklineChartLegend"
-                      [chartType]="sparklineChartType"
-                      (chartHover)="chartHovered($event)"
-                      (chartClick)="chartClicked($event)"></canvas>
+                      <canvas baseChart class="chart" [datasets]="sparklineChartData2" [labels]="sparklineChartLabels" [options]="sparklineChartOptions"
+                        [colors]="sparklineChartSuccess" [legend]="sparklineChartLegend" [chartType]="sparklineChartType" (chartHover)="chartHovered($event)"
+                        (chartClick)="chartClicked($event)"></canvas>
                     </div>
                   </div>
-                </div><!--/.col-->
-              </div><!--/.row-->
+                </div>
+                <!--/.col-->
+              </div>
+              <!--/.row-->
               <hr class="mt-0">
               <ul class="horizontal-bars type-2">
                 <li>
@@ -542,7 +565,9 @@
                 <li>
                   <i class="icon-globe"></i>
                   <span class="title">Organic Search</span>
-                  <span class="value">191,235 <span class="text-muted small">(56%)</span></span>
+                  <span class="value">191,235
+                    <span class="text-muted small">(56%)</span>
+                  </span>
                   <div class="bars">
                     <div class="progress progress-xs">
                       <div class="progress-bar bg-success" role="progressbar" style="width: 56%" aria-valuenow="56" aria-valuemin="0" aria-valuemax="100"></div>
@@ -552,7 +577,9 @@
                 <li>
                   <i class="icon-social-facebook"></i>
                   <span class="title">Facebook</span>
-                  <span class="value">51,223 <span class="text-muted small">(15%)</span></span>
+                  <span class="value">51,223
+                    <span class="text-muted small">(15%)</span>
+                  </span>
                   <div class="bars">
                     <div class="progress progress-xs">
                       <div class="progress-bar bg-success" role="progressbar" style="width: 15%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
@@ -562,7 +589,9 @@
                 <li>
                   <i class="icon-social-twitter"></i>
                   <span class="title">Twitter</span>
-                  <span class="value">37,564 <span class="text-muted small">(11%)</span></span>
+                  <span class="value">37,564
+                    <span class="text-muted small">(11%)</span>
+                  </span>
                   <div class="bars">
                     <div class="progress progress-xs">
                       <div class="progress-bar bg-success" role="progressbar" style="width: 11%" aria-valuenow="11" aria-valuemin="0" aria-valuemax="100"></div>
@@ -572,7 +601,9 @@
                 <li>
                   <i class="icon-social-linkedin"></i>
                   <span class="title">LinkedIn</span>
-                  <span class="value">27,319 <span class="text-muted small">(8%)</span></span>
+                  <span class="value">27,319
+                    <span class="text-muted small">(8%)</span>
+                  </span>
                   <div class="bars">
                     <div class="progress progress-xs">
                       <div class="progress-bar bg-success" role="progressbar" style="width: 8%" aria-valuenow="8" aria-valuemin="0" aria-valuemax="100"></div>
@@ -580,10 +611,13 @@
                   </div>
                 </li>
                 <li class="divider text-center">
-                  <button type="button" class="btn btn-sm btn-link text-muted" data-toggle="tooltip" data-placement="top" title="" data-original-title="show more"><i class="icon-options"></i></button>
+                  <button type="button" class="btn btn-sm btn-link text-muted" data-toggle="tooltip" data-placement="top" title="" data-original-title="show more">
+                    <i class="icon-options"></i>
+                  </button>
                 </li>
               </ul>
-            </div><!--/.col-->
+            </div>
+            <!--/.col-->
             <div class="col-sm-6 col-lg-4">
               <div class="row">
                 <div class="col-sm-6">
@@ -592,37 +626,28 @@
                     <br>
                     <strong class="h4">23%</strong>
                     <div class="chart-wrapper" style="height:30px;">
-                      <canvas baseChart class="chart"
-                      [datasets]="sparklineChartData1"
-                      [labels]="sparklineChartLabels"
-                      [options]="sparklineChartOptions"
-                      [colors]="sparklineChartDefault"
-                      [legend]="sparklineChartLegend"
-                      [chartType]="sparklineChartType"
-                      (chartHover)="chartHovered($event)"
-                      (chartClick)="chartClicked($event)"></canvas>
+                      <canvas baseChart class="chart" [datasets]="sparklineChartData1" [labels]="sparklineChartLabels" [options]="sparklineChartOptions"
+                        [colors]="sparklineChartDefault" [legend]="sparklineChartLegend" [chartType]="sparklineChartType" (chartHover)="chartHovered($event)"
+                        (chartClick)="chartClicked($event)"></canvas>
                     </div>
                   </div>
-                </div><!--/.col-->
+                </div>
+                <!--/.col-->
                 <div class="col-sm-6">
                   <div class="callout callout-primary">
                     <small class="text-muted">Bounce Rate</small>
                     <br>
                     <strong class="h4">5%</strong>
                     <div class="chart-wrapper" style="height:30px;">
-                      <canvas baseChart class="chart"
-                      [datasets]="sparklineChartData2"
-                      [labels]="sparklineChartLabels"
-                      [options]="sparklineChartOptions"
-                      [colors]="sparklineChartPrimary"
-                      [legend]="sparklineChartLegend"
-                      [chartType]="sparklineChartType"
-                      (chartHover)="chartHovered($event)"
-                      (chartClick)="chartClicked($event)"></canvas>
+                      <canvas baseChart class="chart" [datasets]="sparklineChartData2" [labels]="sparklineChartLabels" [options]="sparklineChartOptions"
+                        [colors]="sparklineChartPrimary" [legend]="sparklineChartLegend" [chartType]="sparklineChartType" (chartHover)="chartHovered($event)"
+                        (chartClick)="chartClicked($event)"></canvas>
                     </div>
                   </div>
-                </div><!--/.col-->
-              </div><!--/.row-->
+                </div>
+                <!--/.col-->
+              </div>
+              <!--/.row-->
               <hr class="mt-0">
               <ul class="icons-list">
                 <li>
@@ -636,7 +661,9 @@
                     <strong>1.924</strong>
                   </div>
                   <div class="actions">
-                    <button type="button" class="btn btn-link text-muted"><i class="icon-settings"></i></button>
+                    <button type="button" class="btn btn-link text-muted">
+                      <i class="icon-settings"></i>
+                    </button>
                   </div>
                 </li>
                 <li>
@@ -650,7 +677,9 @@
                     <strong>1.224</strong>
                   </div>
                   <div class="actions">
-                    <button type="button" class="btn btn-link text-muted"><i class="icon-settings"></i></button>
+                    <button type="button" class="btn btn-link text-muted">
+                      <i class="icon-settings"></i>
+                    </button>
                   </div>
                 </li>
                 <li>
@@ -664,7 +693,9 @@
                     <strong>1.163</strong>
                   </div>
                   <div class="actions">
-                    <button type="button" class="btn btn-link text-muted"><i class="icon-settings"></i></button>
+                    <button type="button" class="btn btn-link text-muted">
+                      <i class="icon-settings"></i>
+                    </button>
                   </div>
                 </li>
                 <li>
@@ -678,7 +709,9 @@
                     <strong>928</strong>
                   </div>
                   <div class="actions">
-                    <button type="button" class="btn btn-link text-muted"><i class="icon-settings"></i></button>
+                    <button type="button" class="btn btn-link text-muted">
+                      <i class="icon-settings"></i>
+                    </button>
                   </div>
                 </li>
                 <li>
@@ -692,7 +725,9 @@
                     <strong>893</strong>
                   </div>
                   <div class="actions">
-                    <button type="button" class="btn btn-link text-muted"><i class="icon-settings"></i></button>
+                    <button type="button" class="btn btn-link text-muted">
+                      <i class="icon-settings"></i>
+                    </button>
                   </div>
                 </li>
                 <li>
@@ -706,7 +741,9 @@
                     <strong>121.924</strong>
                   </div>
                   <div class="actions">
-                    <button type="button" class="btn btn-link text-muted"><i class="icon-settings"></i></button>
+                    <button type="button" class="btn btn-link text-muted">
+                      <i class="icon-settings"></i>
+                    </button>
                   </div>
                 </li>
                 <li>
@@ -720,20 +757,28 @@
                     <strong>12.125</strong>
                   </div>
                   <div class="actions">
-                    <button type="button" class="btn btn-link text-muted"><i class="icon-settings"></i></button>
+                    <button type="button" class="btn btn-link text-muted">
+                      <i class="icon-settings"></i>
+                    </button>
                   </div>
                 </li>
                 <li class="divider text-center">
-                  <button type="button" class="btn btn-sm btn-link text-muted" data-toggle="tooltip" data-placement="top" title="show more"><i class="icon-options"></i></button>
+                  <button type="button" class="btn btn-sm btn-link text-muted" data-toggle="tooltip" data-placement="top" title="show more">
+                    <i class="icon-options"></i>
+                  </button>
                 </li>
               </ul>
-            </div><!--/.col-->
-          </div><!--/.row-->
+            </div>
+            <!--/.col-->
+          </div>
+          <!--/.row-->
           <br>
           <table class="table table-responsive-sm table-hover table-outline mb-0">
             <thead class="thead-light">
               <tr>
-                <th class="text-center"><i class="icon-people"></i></th>
+                <th class="text-center">
+                  <i class="icon-people"></i>
+                </th>
                 <th>User</th>
                 <th class="text-center">Country</th>
                 <th>Usage</th>
@@ -969,6 +1014,8 @@
           </table>
         </div>
       </div>
-    </div><!--/.col-->
-  </div><!--/.row-->
+    </div>
+    <!--/.col-->
+  </div>
+  <!--/.row-->
 </div>
