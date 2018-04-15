@@ -39,12 +39,12 @@ export const navigation = [
       {
         name: 'conflicts',
         url: '/base/cards',
-        icon: 'icon-puzzle'
+        icon: 'icon-shield'
       },
       {
-        name: 'Carousels',
+        name: 'requests',
         url: '/base/carousels',
-        icon: 'icon-puzzle'
+        icon: 'icon-bubbles'
       },
       {
         name: 'Collapses',
@@ -94,24 +94,24 @@ export const navigation = [
     ]
   },
   {
-    name: 'Buttons',
+    name: 'people',
     url: '/buttons',
-    icon: 'icon-cursor',
+    icon: 'icon-people',
     children: [
       {
-        name: 'Buttons',
+        name: 'following',
         url: '/buttons/buttons',
-        icon: 'icon-cursor'
+        icon: 'icon-user-following'
       },
       {
-        name: 'Dropdowns',
+        name: 'suggestions',
         url: '/buttons/dropdowns',
-        icon: 'icon-cursor'
+        icon: 'icon-user-follow'
       },
       {
-        name: 'Social Buttons',
+        name: 'Blocked',
         url: '/buttons/social-buttons',
-        icon: 'icon-cursor'
+        icon: 'icon-user-unfollow'
       }
     ]
   },
@@ -121,36 +121,8 @@ export const navigation = [
     icon: 'icon-pie-chart'
   },
   {
-    name: 'Icons',
-    url: '/icons',
-    icon: 'icon-star',
-    children: [
-      {
-        name: 'Flags',
-        url: '/icons/flags',
-        icon: 'icon-star',
-        badge: {
-          variant: 'success',
-          text: 'NEW'
-        }
-      },
-      {
-        name: 'Font Awesome',
-        url: '/icons/font-awesome',
-        icon: 'icon-star',
-        badge: {
-          variant: 'secondary',
-          text: '4.7'
-        }
-      },
-      {
-        name: 'Simple Line Icons',
-        url: '/icons/simple-line-icons',
-        icon: 'icon-star'
-      }
-    ]
-  },
-  {
+    
+  
     name: 'Notifications',
     url: '/notifications',
     icon: 'icon-bell',
@@ -167,49 +139,7 @@ export const navigation = [
       }
     ]
   },
-  {
-    name: 'Widgets',
-    url: '/widgets',
-    icon: 'icon-calculator',
-    badge: {
-      variant: 'info',
-      text: 'NEW'
-    }
-  },
-  {
-    divider: true
-  },
-  {
-    title: true,
-    name: 'Extras',
-  },
-  {
-    name: 'Pages',
-    url: '/pages',
-    icon: 'icon-star',
-    children: [
-      {
-        name: 'Login',
-        url: '/pages/login',
-        icon: 'icon-star'
-      },
-      {
-        name: 'Register',
-        url: '/pages/register',
-        icon: 'icon-star'
-      },
-      {
-        name: 'Error 404',
-        url: '/pages/404',
-        icon: 'icon-star'
-      },
-      {
-        name: 'Error 500',
-        url: '/pages/500',
-        icon: 'icon-star'
-      }
-    ]
-  },
+  
   {
     name: 'View GitHub Project',
     url: 'https://github.com/BananiumLabs/CheeryClass/',
