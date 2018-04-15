@@ -14,12 +14,12 @@ export const navigation = [
   },
   {
     name: 'Classes',
-    url: '/theme/colors',
+    url: '/classes/list',
     icon: 'icon-grid'
   },
   {
     name: 'Add Class',
-    url: '/theme/typography',
+    url: '/classes/add',
     icon: 'icon-plus'
   },
   {

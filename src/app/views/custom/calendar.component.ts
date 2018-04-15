@@ -28,8 +28,6 @@ export class CalendarComponent implements OnInit {
 
     radioModel: string = 'Month';
 
-    
-
     activeDayIsOpen: boolean = false;
 
     @ViewChild('modalContent') modalContent: TemplateRef<any>;
@@ -43,7 +41,7 @@ export class CalendarComponent implements OnInit {
         event: CalendarEvent;
     };
 
-    colors: any = {
+    color =  {
         red: {
             primary: '#ad2121',
             secondary: '#FAE3E3'
@@ -56,7 +54,7 @@ export class CalendarComponent implements OnInit {
             primary: '#e3bc08',
             secondary: '#FDF1BA'
         }
-    };
+    }
 
     actions: any[] = [
         {
@@ -81,26 +79,26 @@ export class CalendarComponent implements OnInit {
             start: subDays(startOfDay(new Date()), 1),
             end: addDays(new Date(), 1),
             title: 'A 3 day event',
-            color: this.colors.red,
+            color: this.color.red,
             actions: this.actions
         },
         {
             start: startOfDay(new Date()),
             title: 'An event with no end date',
-            color: this.colors.yellow,
+            color: this.color.yellow,
             actions: this.actions
         },
         {
             start: subDays(endOfMonth(new Date()), 3),
             end: addDays(endOfMonth(new Date()), 3),
             title: 'A long event that spans 2 months',
-            color: this.colors.blue
+            color: this.color.blue
         },
         {
             start: addHours(startOfDay(new Date()), 2),
             end: new Date(),
             title: 'A draggable and resizable event',
-            color: this.colors.yellow,
+            color: this.color.yellow,
             actions: this.actions,
             resizable: {
                 beforeStart: true,
@@ -148,7 +146,7 @@ export class CalendarComponent implements OnInit {
     //                     return {
     //                         title: film.title,
     //                         start: new Date(film.release_date),
-    //                         // color: colors.yellow,
+    //                         // color: this.color.yellow,
     //                         meta: {
     //                             film
     //                         }
@@ -192,12 +190,12 @@ export class CalendarComponent implements OnInit {
         this.events.push({
             title: 'New event',
             start: startOfDay(new Date()),
-            end: endOfDay(new Date()),
             draggable: true,
             resizable: {
                 beforeStart: true,
                 afterEnd: true
-            }
+            },
+            color: this.color.blue
         });
         this.refresh.next();
     }

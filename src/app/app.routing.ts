@@ -45,13 +45,13 @@ export const routes: Routes = [
         loadChildren: './views/notifications/notifications.module#NotificationsModule'
       },
       {
-        path: 'theme',
-        loadChildren: './views/theme/theme.module#ThemeModule'
+        path: 'classes',
+        loadChildren: './views/classes/theme.module#ThemeModule'
       },
       {
         path: 'widgets',
         loadChildren: './views/widgets/widgets.module#WidgetsModule'
-      }
+      },
       {
         path: 'custom',
         loadChildren: './views/custom/custom.module#CustomModule'
