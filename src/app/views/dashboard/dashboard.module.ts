@@ -6,7 +6,7 @@ import { ButtonsModule } from 'ngx-bootstrap/buttons';
 import { DashboardComponent } from './dashboard.component';
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { CommonModule } from '@angular/common';
-import { CalendarModule } from 'angular-calendar';
+
 
 @NgModule({
   imports: [
@@ -16,7 +16,6 @@ import { CalendarModule } from 'angular-calendar';
     BsDropdownModule,
     ButtonsModule.forRoot(),
     CommonModule,
-    CalendarModule.forRoot(),
   ],
   declarations: [
     DashboardComponent,

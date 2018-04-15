@@ -28,7 +28,7 @@ export const navigation = [
   },
   {
     name: 'Calendar',
-    url: '/pages/calendar',
+    url: '/custom/calendar',
     icon: 'icon-calendar'
   },
   {

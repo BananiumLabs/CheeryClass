@@ -5,7 +5,6 @@ import { P404Component } from './404.component';
 import { P500Component } from './500.component';
 import { LoginComponent } from './login.component';
 import { RegisterComponent } from './register.component';
-import { CalendarComponent } from './calendar.component';
 
 const routes: Routes = [
   {
@@ -42,13 +41,6 @@ const routes: Routes = [
           title: 'Register Page'
         }
       },
-      {
-        path: 'calendar',
-        component: CalendarComponent,
-        data: {
-          title: 'Calendar Page'
-        }
-      }
     ]
   }
 ];
