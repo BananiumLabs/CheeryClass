@@ -1,43 +1,14 @@
 {
-  "name": "@coreui/coreui-free-bootstrap-admin-template",
-  "version": "2.0.0-beta.3",
-  "description": "Free Bootstrap Admin Template",
+  "name": "cheeryclass",
+  "version": "0.0.1",
+  "description": "",
   "keywords": [
-    "admin",
-    "admin panel",
-    "admin template",
-    "bootstrap",
-    "css",
-    "dashboard",
-    "framework",
-    "front-end",
-    "responsive",
-    "sass",
-    "ui kit",
-    "webapp"
   ],
-  "homepage": "https://coreui.io",
-  "bugs": {
-    "url": "https://github.com/coreui/coreui-free-bootstrap-admin-template/issues",
-    "email": "support@coreui.io"
-  },
-  "license": "MIT",
-  "author": {
-    "name": "Łukasz Holeczek",
-    "url": "http://holeczek.pl",
-    "github": "https://github.com/mrholek",
-    "twitter": "https://twitter.com/lukaszholeczek"
-  },
-  "contributors": [
-    {
-      "name": "Andrzej Kopański",
-      "url": "https://github.com/xidedix"
-    }
-  ],
+  "homepage": "https://example.com",
   "main": "src/index.html",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/coreui/coreui-free-bootstrap-admin-template.git"
+    "url": "git+https://github.com/BananiumLabs/CheeryClass.git"
   },
   "scripts": {
     "build": "npm-run-all build-clean build-copy build-vendors",
