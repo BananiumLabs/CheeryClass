@@ -27,6 +27,11 @@ export const navigation = [
     name: 'Calendars'
   },
   {
+    name: 'Calendar',
+    url: '/pages/calendar',
+    icon: 'icon-calendar'
+  },
+  {
     name: 'inbox',
     url: '/base',
     icon: 'icon-drawer',

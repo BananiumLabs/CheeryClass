@@ -6,14 +6,19 @@ import { LoginComponent } from './login.component';
 import { RegisterComponent } from './register.component';
 
 import { PagesRoutingModule } from './pages-routing.module';
+import { CalendarComponent } from './calendar.component';
+import { CommonModule } from '@angular/common';
+import { CalendarModule } from 'angular-calendar';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
-  imports: [ PagesRoutingModule ],
+  imports: [ PagesRoutingModule, CommonModule, CalendarModule, FormsModule ],
   declarations: [
     P404Component,
     P500Component,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    CalendarComponent
   ]
 })
 export class PagesModule { }
