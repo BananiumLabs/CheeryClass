@@ -46,51 +46,12 @@ export const navigation = [
         url: '/base/carousels',
         icon: 'icon-bubbles'
       },
+      
       {
-        name: 'Collapses',
-        url: '/base/collapses',
-        icon: 'icon-puzzle'
-      },
-      {
-        name: 'Forms',
-        url: '/base/forms',
-        icon: 'icon-puzzle'
-      },
-      {
-        name: 'Pagination',
-        url: '/base/paginations',
-        icon: 'icon-puzzle'
-      },
-      {
-        name: 'Popovers',
-        url: '/base/popovers',
-        icon: 'icon-puzzle'
-      },
-      {
-        name: 'Progress',
+        name: 'progress',
         url: '/base/progress',
         icon: 'icon-puzzle'
       },
-      {
-        name: 'Switches',
-        url: '/base/switches',
-        icon: 'icon-puzzle'
-      },
-      {
-        name: 'Tables',
-        url: '/base/tables',
-        icon: 'icon-puzzle'
-      },
-      {
-        name: 'Tabs',
-        url: '/base/tabs',
-        icon: 'icon-puzzle'
-      },
-      {
-        name: 'Tooltips',
-        url: '/base/tooltips',
-        icon: 'icon-puzzle'
-      }
     ]
   },
   {
@@ -109,7 +70,7 @@ export const navigation = [
         icon: 'icon-user-follow'
       },
       {
-        name: 'Blocked',
+        name: 'blocked',
         url: '/buttons/social-buttons',
         icon: 'icon-user-unfollow'
       }

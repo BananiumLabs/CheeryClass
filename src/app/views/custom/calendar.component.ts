@@ -20,10 +20,16 @@ import {
 import { Observable } from 'rxjs/Observable';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subject } from 'rxjs/Subject';
+interface Film {
+    id: number;
+    title: string;
+    release_date: string;
+}
 
 @Component({
     templateUrl: 'calendar.component.html'
 })
+
 export class CalendarComponent implements OnInit {
 
     radioModel: string = 'Month';
@@ -108,10 +114,13 @@ export class CalendarComponent implements OnInit {
         }
     ];
 
+    events$: Observable<Array<CalendarEvent<{ film: Film }>>>;
+
+
     constructor(private http: HttpClient, private modal: NgbModal) { }
 
     ngOnInit(): void {
-        // this.fetchEvents();
+        this.fetchEvents();
     }
 
     // fetchEvents(): void {

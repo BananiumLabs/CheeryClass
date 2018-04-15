@@ -9,13 +9,27 @@
         </div>
         <div class="modal-body">
             <div>
-                Action:
-                <pre>{{ modalData?.action }}</pre>
+                <button type="button" class="btn btn-primary">Request Extension</button>
             </div>
             <div>
-                Event:
-                <pre>{{ modalData?.event | json }}</pre>
+                    <div class="card card-body">
+                        <div>
+                            Action:
+                            <pre>{{ modalData?.action }}</pre>
+                        </div>
+                        
+                        <div>
+                            <pre>{{ modalData?.action }}</pre>
+                        </div>
+                        <div>
+                            Event:
+                            <pre>{{ modalData?.event | json }}</pre>
+                        </div>
+                    </div>
+
+                
             </div>
+            
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-outline-secondary" (click)="close()">OK</button>
@@ -54,6 +68,7 @@
         </div>
     </div>
     <br>
+    
     <div [ngSwitch]="view">
         <mwl-calendar-month-view *ngSwitchCase="'month'" [viewDate]="viewDate" [events]="events" [refresh]="refresh" [activeDayIsOpen]="activeDayIsOpen"
             (dayClicked)="dayClicked($event.day)" (eventClicked)="handleEvent('Clicked', $event.event)" (eventTimesChanged)="eventTimesChanged($event)">
