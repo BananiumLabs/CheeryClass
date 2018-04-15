@@ -1,6 +1,17 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CalendarModule } from 'angular-calendar';
+import { HttpClientModule } from '@angular/common/http';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import {
+  BsDatepickerModule,
+  TimepickerModule
+} from 'ngx-bootstrap';
+import { CalendarHeaderComponent } from './utils/calendar-header.component';
+import { DateTimePickerComponent } from './utils/date-time-picker.component';
 
 import { AppComponent } from './app.component';
 
@@ -71,14 +82,24 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
     AppRoutingModule,
     BsDropdownModule.forRoot(),
     TabsModule.forRoot(),
-    ChartsModule
+    ChartsModule,
+    BrowserAnimationsModule,
+    CalendarModule.forRoot(),
+    HttpClientModule,
+    CommonModule,
+    FormsModule,
+    BsDatepickerModule.forRoot(),
+    TimepickerModule.forRoot(),
+    CalendarModule
   ],
   declarations: [
     AppComponent,
     ...APP_CONTAINERS,
     ...APP_COMPONENTS,
-    ...APP_DIRECTIVES
+    ...APP_DIRECTIVES,
+    CalendarHeaderComponent, DateTimePickerComponent
   ],
+  exports: [CalendarHeaderComponent, DateTimePickerComponent],
   providers: [{
     provide: LocationStrategy,
     useClass: HashLocationStrategy
