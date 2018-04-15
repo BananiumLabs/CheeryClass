@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
+// import { AngularFirestore } from 'angularfire2/firestore';
 
 @Component({
   // tslint:disable-next-line
