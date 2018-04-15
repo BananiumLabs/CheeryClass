@@ -2,14 +2,18 @@
 
     <ng-template #modalContent let-close="close">
         <div class="modal-header">
-            <h5 class="modal-title">Event action occurred</h5>
+            <h5 class="modal-title">Additional Options</h5>
             <button type="button" class="close" (click)="close()">
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
         <div class="modal-body">
             <div>
-                <button type="button" class="btn btn-primary" (click)="visible = !visible">Request Extension</button>
+                <div class="row">
+                    
+                    <button type="button" class="btn btn-primary" (click)="visible = !visible">Request Extension</button>
+                    <button type="button" class="btn btn-warning" (click)="visibleDebug = !visibleDebug">Show Debug Messages</button>
+                </div>
                 <h3 class="panel-title">
                     <!--<span class="title">Click me!</span>-->
                 </h3>
@@ -24,10 +28,11 @@
                             <div class="form-group" [class.has-error]="!detail.touched">
                         
                                 <label for="detail" class="flow-text">Please Describe Why You Would Require An Extension</label>
+                                <p>Please be descriptive and your teacher may request additional verifications of your claim.</p>
                                 <input [formControl]="detail" required type="text" class="form-control" id="detail" name="detail">
                                 <div class="help-block">
                                     <ul class="list-unstyled">
-                                        <li *ngIf="detail != undefined && detail.dirty && detail.hasError('required')" class="red-text" style="color: red"><b>An explaination is required</b></li>
+                                        <li *ngIf="detail != undefined && detail.dirty && detail.hasError('required')" class="red-text" style="color: red">A description is required!</li>
                                     </ul>
                                 </div>
                             </div>
@@ -38,7 +43,10 @@
                                 </ul>
                             </div>
                             <div class="alert alert-warning" role="alert">
-                                <b>This request will deduct 1 LATE WORK PASS!</b>
+                                <b>Note: This action will deduct 1 Late Pass.</b>
+                            </div>
+                            <div class="alert alert-info" role="info">
+                                <b>You have {{ latePassAmount }} Late Passes Left.</b>
                             </div>
                             <button ng-disabled="extensionForm.$invalid || extensionForm.$pending" type="submit" class="btn btn btn-primary">
                                 Submit Extension Request
@@ -56,7 +64,7 @@
 
 
 <div>
-    <button type="button" class="btn btn-warning" (click)="visibleDebug = !visibleDebug">Show Debug Messages</button>
+    
     <h3 class="panel-title">
         <!--<span class="title">Click me!</span>-->
     </h3>

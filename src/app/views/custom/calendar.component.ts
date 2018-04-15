@@ -125,16 +125,21 @@ export class CalendarComponent implements OnInit {
 
     form: FormGroup;
     detail: AbstractControl;
+    latePassAmount: string;
     constructor(private http: HttpClient, private modal: NgbModal, private fb: FormBuilder) {
 
         this.form = fb.group({
             'detail': ['', Validators.required],
         });
         this.detail = this.form.controls['detail'];
+
+        this.latePassAmount = (3).toString(); // Set late pass amount to this variable!
      }
 
     sendMessage(): void {
         console.log(this.detail.value);
+        // Don't forget to change the latePassAmount in constructor to update to firebase^^^
+        
         // Insert Firebase Here
     }
     ngOnInit(): void {
