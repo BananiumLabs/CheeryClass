@@ -20,10 +20,16 @@ import {
 import { Observable } from 'rxjs/Observable';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subject } from 'rxjs/Subject';
+interface Film {
+    id: number;
+    title: string;
+    release_date: string;
+}
 
 @Component({
     templateUrl: 'calendar.component.html'
 })
+
 export class CalendarComponent implements OnInit {
 
     radioModel: string = 'Month';
@@ -110,53 +116,56 @@ export class CalendarComponent implements OnInit {
         }
     ];
 
+    events$: Observable<Array<CalendarEvent<{ film: Film }>>>;
+
+
     constructor(private http: HttpClient, private modal: NgbModal) { }
 
     ngOnInit(): void {
-        // this.fetchEvents();
+        this.fetchEvents();
     }
 
-    // fetchEvents(): void {
-    //     const getStart: any = {
-    //         month: startOfMonth,
-    //         week: startOfWeek,
-    //         day: startOfDay
-    //     }[this.view];
+    fetchEvents(): void {
+        const getStart: any = {
+            month: startOfMonth,
+            week: startOfWeek,
+            day: startOfDay
+        }[this.view];
 
-    //     const getEnd: any = {
-    //         month: endOfMonth,
-    //         week: endOfWeek,
-    //         day: endOfDay
-    //     }[this.view];
+        const getEnd: any = {
+            month: endOfMonth,
+            week: endOfWeek,
+            day: endOfDay
+        }[this.view];
 
-    //     const params = new HttpParams()
-    //         .set(
-    //             'primary_release_date.gte',
-    //             format(getStart(this.viewDate), 'YYYY-MM-DD')
-    //         )
-    //         .set(
-    //             'primary_release_date.lte',
-    //             format(getEnd(this.viewDate), 'YYYY-MM-DD')
-    //         )
-    //         .set('api_key', '0ec33936a68018857d727958dca1424f');
+        const params = new HttpParams()
+            .set(
+                'primary_release_date.gte',
+                format(getStart(this.viewDate), 'YYYY-MM-DD')
+            )
+            .set(
+                'primary_release_date.lte',
+                format(getEnd(this.viewDate), 'YYYY-MM-DD')
+            )
+            .set('api_key', '0ec33936a68018857d727958dca1424f');
 
-    //     this.events$ = this.http
-    //         .get('https://api.themoviedb.org/3/discover/movie', { params })
-    //         .pipe(
-    //             map(({ results }: { results: Film[] }) => {
-    //                 return results.map((film: Film) => {
-    //                     return {
-    //                         title: film.title,
-    //                         start: new Date(film.release_date),
-    //                         // color: colors.yellow,
-    //                         meta: {
-    //                             film
-    //                         }
-    //                     };
-    //                 });
-    //             })
-    //         );
-    // }
+        this.events$ = this.http
+            .get('https://api.themoviedb.org/3/discover/movie', { params })
+            .pipe(
+                map(({ results }: { results: Film[] }) => {
+                    return results.map((film: Film) => {
+                        return {
+                            title: film.title,
+                            start: new Date(film.release_date),
+                            // color: colors.yellow,
+                            meta: {
+                                film
+                            }
+                        };
+                    });
+                })
+            );
+    }
 
     dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
         if (isSameMonth(date, this.viewDate)) {

@@ -51,7 +51,7 @@ export const routes: Routes = [
       {
         path: 'widgets',
         loadChildren: './views/widgets/widgets.module#WidgetsModule'
-      }
+      },
       {
         path: 'custom',
         loadChildren: './views/custom/custom.module#CustomModule'
