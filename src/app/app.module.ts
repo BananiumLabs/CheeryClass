@@ -5,7 +5,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CalendarModule } from 'angular-calendar';
 import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   BsDatepickerModule,
   TimepickerModule
@@ -17,6 +17,7 @@ import { AngularFireModule } from 'angularfire2';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { environment } from '../environments/environment';
+
 
 // Import containers
 import {
@@ -94,7 +95,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     CalendarModule.forRoot(),
     HttpClientModule,
     CommonModule,
-    FormsModule,
+    FormsModule, ReactiveFormsModule,
     BsDatepickerModule.forRoot(),
     TimepickerModule.forRoot(),
     CalendarModule,

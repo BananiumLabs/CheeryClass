@@ -9,26 +9,77 @@
         </div>
         <div class="modal-body">
             <div>
-                <button type="button" class="btn btn-primary">Request Extension</button>
+                <button type="button" class="btn btn-primary" (click)="visible = !visible">Request Extension</button>
+                <h3 class="panel-title">
+                    <!--<span class="title">Click me!</span>-->
+                </h3>
+                <div class="panel-body" *ngIf="visible">
+                    <div class="card card-body">
+                        
+
+
+
+                        <form name="extensionForm" [formGroup]="form" role="form" (ngSubmit)="sendMessage(form.value)">
+                        
+                            <div class="form-group" [class.has-error]="!detail.touched">
+                        
+                                <label for="detail" class="flow-text">Please Describe Why You Would Require An Extension</label>
+                                <input [formControl]="detail" required type="text" class="form-control" id="detail" name="detail">
+                                <div class="help-block">
+                                    <ul class="list-unstyled">
+                                        <li *ngIf="detail != undefined && detail.dirty && detail.hasError('required')" class="red-text" style="color: red"><b>An explaination is required</b></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        
+                            <div class="help-block">
+                                <ul class="list-unstyled">
+                                    <!--spacer-->
+                                </ul>
+                            </div>
+                            <div class="alert alert-warning" role="alert">
+                                <b>This request will deduct 1 LATE WORK PASS!</b>
+                            </div>
+                            <button ng-disabled="extensionForm.$invalid || extensionForm.$pending" type="submit" class="btn btn btn-primary">
+                                Submit Extension Request
+                            </button>
+                        
+                        </form>
+
+
+
+
+
+                    </div>
+                </div>
+            </div>
+
+
+<div>
+    <button type="button" class="btn btn-warning" (click)="visibleDebug = !visibleDebug">Show Debug Messages</button>
+    <h3 class="panel-title">
+        <!--<span class="title">Click me!</span>-->
+    </h3>
+    <div class="panel-body" *ngIf="visibleDebug">
+        <div class="card card-body">
+            <div>
+                Action:
+                <pre>{{ modalData?.action }}</pre>
+            </div>
+
+            <div>
+                <pre>{{ modalData?.action }}</pre>
             </div>
             <div>
-                    <div class="card card-body">
-                        <div>
-                            Action:
-                            <pre>{{ modalData?.action }}</pre>
-                        </div>
-                        
-                        <div>
-                            <pre>{{ modalData?.action }}</pre>
-                        </div>
-                        <div>
-                            Event:
-                            <pre>{{ modalData?.event | json }}</pre>
-                        </div>
-                    </div>
-
-                
+                Event:
+                <pre>{{ modalData?.event | json }}</pre>
             </div>
+        </div>
+    </div>
+</div>
+
+
+            
             
         </div>
         <div class="modal-footer">

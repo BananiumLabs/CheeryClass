@@ -20,11 +20,17 @@ import {
 import { Observable } from 'rxjs/Observable';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subject } from 'rxjs/Subject';
+import { FormBuilder, Validators, AbstractControl, FormGroup } from '@angular/forms';
+
+
 interface Film {
     id: number;
     title: string;
     release_date: string;
 }
+var visible: false;
+var visibleDebug: false;
+
 
 @Component({
     templateUrl: 'calendar.component.html'
@@ -119,8 +125,20 @@ export class CalendarComponent implements OnInit {
     events$: Observable<Array<CalendarEvent<{ film: Film }>>>;
 
 
-    constructor(private http: HttpClient, private modal: NgbModal) { }
+    form: FormGroup;
+    detail: AbstractControl;
+    constructor(private http: HttpClient, private modal: NgbModal, private fb: FormBuilder) {
 
+        this.form = fb.group({
+            'detail': ['', Validators.required],
+        });
+        this.detail = this.form.controls['detail'];
+     }
+
+    sendMessage(): void {
+        console.log(this.detail.value);
+        // Insert Firebase Here
+    }
     ngOnInit(): void {
         this.fetchEvents();
     }
