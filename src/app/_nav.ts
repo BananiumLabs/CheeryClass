@@ -208,7 +208,7 @@ export const navigation = [
   {
     name: 'View GitHub Project',
     url: 'https://github.com/BananiumLabs/CheeryClass/',
-    icon: 'icon-stack',
+    icon: 'icon-layers',
     class: 'mt-auto',
     variant: 'success'
   }
